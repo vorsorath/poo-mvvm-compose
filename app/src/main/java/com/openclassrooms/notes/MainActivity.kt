@@ -1,6 +1,7 @@
 package com.openclassrooms.notes
 
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.openclassrooms.notes.repository.NotesRepository
 import com.openclassrooms.notes.ui.theme.NotesTheme
 
@@ -49,19 +52,6 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     },
-                    floatingActionButtonPosition = FabPosition.End,
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {
-                                //TODO
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "Add a note"
-                            )
-                        }
-                    }
                 ) {
                     Notes(
                         modifier = Modifier.padding(it),
@@ -120,5 +110,6 @@ private fun Notes(
     modifier: Modifier = Modifier,
     notesRepository: NotesRepository
 ) {
+    val notes by notesRepository.notes.collectAsStateWithLifecycle(emptyList<Note>())
 
 }
