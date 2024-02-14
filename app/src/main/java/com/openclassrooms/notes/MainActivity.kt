@@ -42,13 +42,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        initRecyclerView()
-//        initFABButton()
-//        collectNotes()
-
         setContent {
             NotesTheme {
                 Scaffold(
@@ -69,47 +62,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-//    /**
-//     * Collects notes from the repository and updates the adapter.
-//     */
-//    private fun collectNotes() {
-//        lifecycleScope.launch {
-//            notesRepository.notes.collect {
-//                notesAdapter.updateNotes(it)
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Initializes the FAB button.
-//     */
-//    private fun initFABButton() {
-//        binding.btnAdd.setOnClickListener {
-//            MaterialAlertDialogBuilder(this).apply {
-//                setTitle(R.string.coming_soon)
-//                setMessage(R.string.not_available_yet)
-//                setPositiveButton(android.R.string.ok, null)
-//            }.show()
-//        }
-//    }
-//
-//    /**
-//     * Initializes the RecyclerView.
-//     */
-//    private fun initRecyclerView() {
-//        with(binding.recycler) {
-//            addItemDecoration(
-//                NoteItemDecoration(
-//                    resources.getDimensionPixelSize(R.dimen.default_margin),
-//                    resources.getInteger(R.integer.span_count)
-//                )
-//            )
-//
-//            adapter = notesAdapter
-//        }
-//
-//    }
 
 }
 
