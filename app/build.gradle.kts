@@ -27,7 +27,6 @@ android {
         }
     }
     buildFeatures {
-        viewBinding = true //TODO: remove after migration
         compose = true
     }
     compileOptions {
@@ -43,14 +42,6 @@ android {
 }
 
 dependencies {
-    //TODO: remove after migration
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
