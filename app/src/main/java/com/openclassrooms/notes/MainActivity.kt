@@ -3,6 +3,7 @@ package com.openclassrooms.notes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,20 +29,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.openclassrooms.notes.repository.NotesRepository
+import androidx.lifecycle.lifecycleScope
+import com.openclassrooms.notes.data.Notes
 import com.openclassrooms.notes.ui.theme.NotesTheme
+import com.openclassrooms.notes.ViewModel.NoteViewModel
+import kotlinx.coroutines.launch
 
 /**
  * The main activity for the app.
  */
 class MainActivity : ComponentActivity() {
 
-    private val notesRepository = NotesRepository()
+
+    private val viewModel: NoteViewModel by viewModels()
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.notes.collect {
+                println(it)
+            }
 
+        }
         setContent {
             NotesTheme {
                 Scaffold(
@@ -56,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Notes(
                         modifier = Modifier.padding(it),
-                        notesRepository = notesRepository
+                        notesRepository = viewModel
                     )
                 }
             }
@@ -68,7 +79,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Notes(
     modifier: Modifier = Modifier,
-    notesRepository: NotesRepository
+    notesRepository: NoteViewModel
 ) {
     val notes by notesRepository.notes.collectAsStateWithLifecycle(emptyList())
 
@@ -81,15 +92,15 @@ private fun Notes(
         content = {
             items(
                 items = notes,
-            ) {
-                NoteItem(it)
+            ) { note ->
+                NoteItem(note)
             }
         }
     )
 }
 
 @Composable
-private fun NoteItem(note: Pair<String, String>) {
+private fun NoteItem(note: Notes) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,12 +109,12 @@ private fun NoteItem(note: Pair<String, String>) {
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = note.first,
+                text = note.title,
                 style = MaterialTheme.typography.headlineLarge
             )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = note.second,
+                text = note.description,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -113,7 +124,7 @@ private fun NoteItem(note: Pair<String, String>) {
 @Composable
 private fun NoteItemPreview() {
     NotesTheme(dynamicColor = false) {
-        NoteItem(note = Pair("Title", "Super loooooong description with a lot of words!"))
+        NoteItem(note = Notes("Title", "Super loooooong description with a lot of words!"))
     }
 }
 
