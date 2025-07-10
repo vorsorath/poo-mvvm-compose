@@ -53,7 +53,16 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.13.2") // junit
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")// test coroutine
+    testImplementation("app.cash.turbine:turbine:1.0.0")// test flow
+
+    // Pour tests unitaires JVM
+    testImplementation("io.mockk:mockk:1.13.5")
+
+
 }

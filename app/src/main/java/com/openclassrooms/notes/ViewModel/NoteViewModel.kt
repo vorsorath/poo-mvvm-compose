@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class NoteViewModel(private val notesRepository : NotesRepository ): ViewModel() {
-
+class NoteViewModel( private val notesRepository: NotesRepository = NotesRepository()  ): ViewModel() {
     private val _notes: MutableStateFlow<List<Notes>> = MutableStateFlow(emptyList())//permet de stocker la liste de notes
     val notes: Flow<List<Notes>> = _notes.asStateFlow()//permet de ne pas modifier la liste de notes
     init {

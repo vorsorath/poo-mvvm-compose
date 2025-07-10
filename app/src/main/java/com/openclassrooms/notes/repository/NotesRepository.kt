@@ -4,12 +4,13 @@ import com.openclassrooms.notes.data.Notes
 import com.openclassrooms.notes.service.LocalNotesApiService
 import com.openclassrooms.notes.service.NotesApiService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 
 /**
  * Repository class for the notes.
  */
-class NotesRepository {
+open class NotesRepository {
 
     /**
      * The API service for interacting with notes.
@@ -19,7 +20,16 @@ class NotesRepository {
     /**
      * A flow that emits a list of all notes.
      */
-    val notes: Flow<List<Notes>> = flow {
+    open val notes: Flow<List<Notes>> = flow {
         emit(notesApiService.getAllNotes())
+    }
+
+    class FakeNotesRepository : NotesRepository() {
+        private val _notesFlow = MutableStateFlow<List<Notes>>(emptyList())
+        override val notes = _notesFlow
+
+        fun emitNotes(list: List<Notes>) {
+            _notesFlow.value = list
+        }
     }
 }

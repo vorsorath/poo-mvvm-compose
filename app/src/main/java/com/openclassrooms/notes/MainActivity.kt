@@ -29,11 +29,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.openclassrooms.notes.data.Notes
 import com.openclassrooms.notes.ui.theme.NotesTheme
 import com.openclassrooms.notes.ViewModel.NoteViewModel
-import kotlinx.coroutines.launch
 
 /**
  * The main activity for the app.
@@ -47,12 +45,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            viewModel.notes.collect {
-                println(it)
-            }
-
-        }
         setContent {
             NotesTheme {
                 Scaffold(
@@ -67,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Notes(
                         modifier = Modifier.padding(it),
-                        notesRepository = viewModel
+                        noteViewModel = viewModel
                     )
                 }
             }
@@ -79,9 +71,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Notes(
     modifier: Modifier = Modifier,
-    notesRepository: NoteViewModel
+    noteViewModel: NoteViewModel
 ) {
-    val notes by notesRepository.notes.collectAsStateWithLifecycle(emptyList())
+    val notes by noteViewModel.notes.collectAsStateWithLifecycle(emptyList())
 
     LazyVerticalStaggeredGrid(
         modifier = modifier.fillMaxSize(),
